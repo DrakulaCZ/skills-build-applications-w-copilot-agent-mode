@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from . import views
-
+import os
 
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
@@ -26,6 +26,13 @@ router.register(r'teams', views.TeamViewSet)
 router.register(r'activities', views.ActivityViewSet)
 router.register(r'workouts', views.WorkoutViewSet)
 router.register(r'leaderboard', views.LeaderboardViewSet)
+
+# Helper to get codespace URL
+def get_codespace_url():
+    codespace_name = os.environ.get('CODESPACE_NAME')
+    if codespace_name:
+        return f'https://{codespace_name}-8000.app.github.dev'
+    return 'http://localhost:8000'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
